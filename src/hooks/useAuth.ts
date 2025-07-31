@@ -48,7 +48,7 @@ export function useAuth() {
     return { error };
   };
 
-  const signInWithOAuth = async (provider: 'discord' | 'github') => {
+  const signInWithOAuth = async (provider: 'discord') => {
     const redirectUrl = `${window.location.origin}/`;
     
     const { error } = await supabase.auth.signInWithOAuth({
