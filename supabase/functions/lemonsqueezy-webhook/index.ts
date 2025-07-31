@@ -5,6 +5,28 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Function to verify webhook signature
+async function verifySignature(payload: string, signature: string, secret: string): Promise<boolean> {
+  const encoder = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+  
+  const signatureBuffer = await crypto.subtle.sign('HMAC', key, encoder.encode(payload));
+  const expectedSignature = Array.from(new Uint8Array(signatureBuffer))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+  
+  // Remove 'sha256=' prefix if present
+  const cleanSignature = signature.startsWith('sha256=') ? signature.slice(7) : signature;
+  
+  return expectedSignature === cleanSignature;
+}
+
 // Product ID mapping
 const PRODUCT_PLANS = {
   595887: 'lifetime',  // PRODUCT_LIFETIME_ID
@@ -31,8 +53,39 @@ Deno.serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    const payload = await req.json();
-    console.log('LemonSqueezy webhook received:', JSON.stringify(payload, null, 2));
+    // Get the raw body and signature for verification
+    const rawBody = await req.text();
+    const signature = req.headers.get('X-Signature');
+    const webhookSecret = Deno.env.get('LEMONSQUEEZY_WEBHOOK_SECRET');
+
+    console.log('LemonSqueezy webhook received, signature present:', !!signature);
+
+    // Verify signature if secret is configured
+    if (webhookSecret) {
+      if (!signature) {
+        console.error('Missing X-Signature header');
+        return new Response('Missing signature', { 
+          status: 401, 
+          headers: corsHeaders 
+        });
+      }
+
+      const isValid = await verifySignature(rawBody, signature, webhookSecret);
+      if (!isValid) {
+        console.error('Invalid webhook signature');
+        return new Response('Invalid signature', { 
+          status: 401, 
+          headers: corsHeaders 
+        });
+      }
+
+      console.log('Webhook signature verified successfully');
+    } else {
+      console.warn('No webhook secret configured - signature verification skipped');
+    }
+
+    const payload = JSON.parse(rawBody);
+    console.log('LemonSqueezy webhook payload:', JSON.stringify(payload, null, 2));
 
     // Verify this is a successful order event
     if (payload.meta?.event_name === 'order_created' && payload.data?.attributes?.status === 'paid') {
