@@ -61,7 +61,17 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// BuxTax brand colors
+				cream: 'hsl(var(--cream))',
+				royal: 'hsl(var(--royal))',
+				black: 'hsl(var(--black))',
+				cherry: 'hsl(var(--cherry))',
+				yellow: 'hsl(var(--yellow))',
+				burgundy: 'hsl(var(--burgundy))'
+			},
+			fontFamily: {
+				rounded: ['"Rounded Mplus 1c"', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

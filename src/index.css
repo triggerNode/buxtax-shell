@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Rounded+Mplus+1c:wght@300;400;500;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,8 +10,17 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* BuxTax brand colors - converted to HSL */
+    --cream: 56 52% 95%;      /* #FAFAED */
+    --royal: 237 89% 52%;     /* #1820EF */
+    --black: 0 0% 0%;         /* #000000 */
+    --cherry: 4 100% 63%;     /* #FF4E42 */
+    --yellow: 42 100% 57%;    /* #FFC024 */
+    --burgundy: 0 52% 27%;    /* #832626 */
+    
+    /* Updated semantic colors for BuxTax theme */
+    --background: 56 52% 95%; /* cream */
+    --foreground: 0 0% 0%;    /* black */
 
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
@@ -17,8 +28,8 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 237 89% 52%;       /* royal */
+    --primary-foreground: 56 52% 95%; /* cream */
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;

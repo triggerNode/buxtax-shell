@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "title": "Instant Calculations",
+    "description": "Get real-time conversion rates from Robux to USD with current DevEx rates",
+    "icon": "calculator"
+  },
+  {
+    "id": 2,
+    "title": "Fee Breakdown",
+    "description": "See exactly what fees are deducted and what you'll actually receive",
+    "icon": "pie-chart"
+  },
+  {
+    "id": 3,
+    "title": "Export Results",
+    "description": "Download your calculations for tax purposes and record keeping",
+    "icon": "download"
+  }
+]
