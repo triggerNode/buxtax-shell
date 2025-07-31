@@ -48,17 +48,6 @@ export function useAuth() {
     return { error };
   };
 
-  const signInWithOAuth = async (provider: 'discord') => {
-    const redirectUrl = `${window.location.origin}/`;
-    
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: redirectUrl
-      }
-    });
-    return { error };
-  };
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
@@ -71,7 +60,6 @@ export function useAuth() {
     loading,
     signIn,
     signUp,
-    signInWithOAuth,
     signOut,
   };
 }
