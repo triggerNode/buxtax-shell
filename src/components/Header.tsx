@@ -16,7 +16,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-cream border-b border-royal/10 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 bg-cream backdrop-blur-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -50,7 +50,7 @@ export const Header = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-royal/10">
+          <div className="md:hidden py-4">
             <div className="flex flex-col space-y-3">
               <Link to="/signin" onClick={() => setIsMenuOpen(false)}>
                 <Button variant="ghost" className="w-full justify-start text-royal hover:text-royal/80">
