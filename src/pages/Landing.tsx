@@ -1,3 +1,4 @@
+import { Header } from '@/components/Header';
 import { Hero } from '@/components/Hero';
 import { SocialProof } from '@/components/SocialProof';
 import { Features } from '@/components/Features';
@@ -7,10 +8,13 @@ import { FAQ } from '@/components/FAQ';
 export default function Landing() {
   return (
     <div className="min-h-screen bg-cream">
+      <Header />
       <Hero />
       <SocialProof />
       <Features />
-      <Pricing />
+      <div id="pricing">
+        <Pricing />
+      </div>
       <FAQ />
       <footer className="bg-royal text-cream py-8">
         <div className="container mx-auto px-4 text-center">
