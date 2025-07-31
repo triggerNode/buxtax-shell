@@ -154,7 +154,8 @@ function AccountContent() {
                         <Button 
                           size="sm" 
                           onClick={() => {
-                            window.open('https://buxtax.lemonsqueezy.com/checkout/buy/PRODUCT_LIFETIME_ID?checkout[success_url]=https://buxtax.com/thank-you', '_blank');
+                            const uid = user?.id || '';
+                            window.open(`https://buxtax.lemonsqueezy.com/checkout/buy/595887?checkout[success_url]=https://buxtax.com/thank-you&checkout[custom][uid]=${uid}`, '_blank');
                           }}
                         >
                           Upgrade to Lifetime - $39
@@ -163,7 +164,8 @@ function AccountContent() {
                           size="sm" 
                           variant="outline"
                           onClick={() => {
-                            window.open('https://buxtax.lemonsqueezy.com/checkout/buy/PRODUCT_STUDIO_ID?checkout[success_url]=https://buxtax.com/thank-you', '_blank');
+                            const uid = user?.id || '';
+                            window.open(`https://buxtax.lemonsqueezy.com/checkout/buy/595901?checkout[success_url]=https://buxtax.com/thank-you&checkout[custom][uid]=${uid}`, '_blank');
                           }}
                         >
                           Upgrade to Studio - $149

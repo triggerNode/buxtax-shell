@@ -5,6 +5,13 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Product ID mapping
+const PRODUCT_PLANS = {
+  595887: 'lifetime',  // PRODUCT_LIFETIME_ID
+  595901: 'studio',    // PRODUCT_STUDIO_ID  
+  595903: 'monthly'    // PRODUCT_MONTHLY_ID
+};
+
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -30,48 +37,44 @@ Deno.serve(async (req) => {
     // Verify this is a successful order event
     if (payload.meta?.event_name === 'order_created' && payload.data?.attributes?.status === 'paid') {
       const orderData = payload.data.attributes;
-      const customerEmail = orderData.user_email;
+      const productId = parseInt(orderData.product_id);
+      const customData = orderData.checkout_data?.custom || {};
+      const userId = customData.uid;
 
-      console.log('Processing successful payment for email:', customerEmail);
+      console.log('Processing successful payment:', {
+        productId,
+        userId,
+        customerEmail: orderData.user_email
+      });
 
-      if (!customerEmail) {
-        console.error('No customer email found in webhook payload');
-        return new Response('No customer email found', { 
+      // Validate required data
+      if (!userId) {
+        console.error('No custom uid found in webhook payload');
+        return new Response('No user ID found in custom data', { 
           status: 400, 
           headers: corsHeaders 
         });
       }
 
-      // Find user by email in auth.users and update their profile
-      const { data: users, error: userError } = await supabase.auth.admin.listUsers();
-      
-      if (userError) {
-        console.error('Error fetching users:', userError);
-        return new Response('Error fetching users', { 
-          status: 500, 
+      // Get plan from product ID
+      const plan = PRODUCT_PLANS[productId];
+      if (!plan) {
+        console.error('Unknown product ID:', productId);
+        return new Response('Unknown product ID', { 
+          status: 400, 
           headers: corsHeaders 
         });
       }
 
-      const user = users.users.find(u => u.email === customerEmail);
-      
-      if (!user) {
-        console.error('User not found for email:', customerEmail);
-        return new Response('User not found', { 
-          status: 404, 
-          headers: corsHeaders 
-        });
-      }
-
-      // Update user profile to active status
+      // Update user profile directly using the custom uid
       const { error: updateError } = await supabase
         .from('profiles')
         .update({ 
           status: 'active',
-          plan: 'lifetime',
+          plan: plan,
           updated_at: new Date().toISOString()
         })
-        .eq('id', user.id);
+        .eq('id', userId);
 
       if (updateError) {
         console.error('Error updating profile:', updateError);
@@ -81,7 +84,7 @@ Deno.serve(async (req) => {
         });
       }
 
-      console.log('Successfully activated user:', user.id, 'for email:', customerEmail);
+      console.log('Successfully activated user:', userId, 'with plan:', plan);
       
       return new Response('Profile activated successfully', { 
         status: 200, 

@@ -3,21 +3,30 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Check, Sparkles, Crown } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 
 export function Pricing() {
+  const { user } = useAuth();
+
   const handleLifetimeClick = () => {
+    const uid = user?.id || '';
+    const url = `https://buxtax.lemonsqueezy.com/checkout/buy/595887?checkout[success_url]=https://buxtax.com/thank-you&checkout[custom][uid]=${uid}`;
+    
     if (typeof window !== 'undefined' && (window as any).LemonSqueezy) {
-      (window as any).LemonSqueezy.Url.Open('https://buxtax.lemonsqueezy.com/checkout/buy/PRODUCT_LIFETIME_ID?checkout[success_url]=https://buxtax.com/thank-you');
+      (window as any).LemonSqueezy.Url.Open(url);
     } else {
-      window.open('https://buxtax.lemonsqueezy.com/checkout/buy/PRODUCT_LIFETIME_ID?checkout[success_url]=https://buxtax.com/thank-you', '_blank');
+      window.open(url, '_blank');
     }
   };
 
   const handleStudioClick = () => {
+    const uid = user?.id || '';
+    const url = `https://buxtax.lemonsqueezy.com/checkout/buy/595901?checkout[success_url]=https://buxtax.com/thank-you&checkout[custom][uid]=${uid}`;
+    
     if (typeof window !== 'undefined' && (window as any).LemonSqueezy) {
-      (window as any).LemonSqueezy.Url.Open('https://buxtax.lemonsqueezy.com/checkout/buy/PRODUCT_STUDIO_ID?checkout[success_url]=https://buxtax.com/thank-you');
+      (window as any).LemonSqueezy.Url.Open(url);
     } else {
-      window.open('https://buxtax.lemonsqueezy.com/checkout/buy/PRODUCT_STUDIO_ID?checkout[success_url]=https://buxtax.com/thank-you', '_blank');
+      window.open(url, '_blank');
     }
   };
 

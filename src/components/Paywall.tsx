@@ -22,11 +22,14 @@ export function Paywall({ children }: PaywallProps) {
   }
 
   const handleUpgrade = () => {
+    const uid = user?.id || '';
+    const url = `https://buxtax.lemonsqueezy.com/checkout/buy/595887?checkout[success_url]=https://buxtax.com/thank-you&checkout[custom][uid]=${uid}`;
+    
     if (typeof window !== 'undefined' && (window as any).LemonSqueezy) {
-      (window as any).LemonSqueezy.Url.Open('https://buxtax.lemonsqueezy.com/checkout/buy/PRODUCT_LIFETIME_ID?checkout[success_url]=https://buxtax.com/thank-you');
+      (window as any).LemonSqueezy.Url.Open(url);
     } else {
       // Fallback if LemonSqueezy script isn't loaded
-      window.open('https://buxtax.lemonsqueezy.com/checkout/buy/PRODUCT_LIFETIME_ID?checkout[success_url]=https://buxtax.com/thank-you', '_blank');
+      window.open(url, '_blank');
     }
   };
 
