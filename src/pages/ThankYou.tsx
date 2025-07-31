@@ -31,7 +31,7 @@ export default function ThankYou() {
               <ul className="text-sm text-green-700 space-y-1">
                 <li>• Access to all calculator features</li>
                 <li>• Detailed conversion breakdowns</li>
-                <li>• Export your calculations</li>
+                <li>• Share your calculations</li>
                 <li>• Priority support</li>
               </ul>
             </div>

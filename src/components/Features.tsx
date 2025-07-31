@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
-import { Calculator, PieChart, Download } from 'lucide-react';
+import { Calculator, PieChart, Share } from 'lucide-react';
 import features from '@/data/features.json';
 
 const iconMap = {
   calculator: Calculator,
   'pie-chart': PieChart,
-  download: Download,
+  share: Share,
 };
 
 export function Features() {
@@ -114,9 +114,9 @@ export function Features() {
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-cherry rounded-full mt-2"></div>
                   <div>
-                    <h4 className="font-semibold text-foreground">Export Ready</h4>
+                    <h4 className="font-semibold text-foreground">Share Ready</h4>
                     <p className="text-sm text-muted-foreground">
-                      Download calculations for taxes and financial records
+                      Download PDFs and share your calculations to social media
                     </p>
                   </div>
                 </div>
